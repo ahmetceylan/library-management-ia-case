@@ -1,9 +1,8 @@
-import winston from 'winston';
+import * as winston from 'winston';
 
 export default class Logger {
-  logger;
-  constructor() {
-    this.logger = winston.createLogger({
+  static init = () => {
+    let logger = winston.createLogger({
       level: 'info',
       format: winston.format.json(),
       defaultMeta: { service: 'user-service' },
@@ -12,15 +11,13 @@ export default class Logger {
         new winston.transports.Console()
       ]
     });
-  }
 
-  init () {
     if (process.env.NODE_ENV !== 'production') {
-      this.logger.add(new winston.transports.Console({
+      logger.add(new winston.transports.Console({
         format: winston.format.simple()
       }));
     }
     // enable below line to write into a file
-    winston.add(this.logger);
+    winston.add(logger);
   }
 }

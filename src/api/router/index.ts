@@ -1,4 +1,4 @@
-import express from'express';
+import express, { Application } from'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -6,10 +6,10 @@ import rateLimit from 'express-rate-limit';
 import errorMiddleware from '../middlewares/error';
 import requestLogger from '../middlewares/requestLogger';
 import notFound from '../middlewares/notFound';
-
+import appRoutes from './routes';
 class Router {
   expressApp;
-  constructor(app) {
+  constructor(app: Application) {
     this.expressApp = app
   }
   
@@ -40,7 +40,7 @@ initMiddlewares = () => {
  * Adds application routes
  */
 initApplicationRoutes = () => {
-  this.expressApp.use('/api', require('./routes'));
+  this.expressApp.use('/api', appRoutes);
 }
 
 /**
