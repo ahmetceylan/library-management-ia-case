@@ -9,6 +9,9 @@ export class BookEntity extends BaseEntity {
     @Column({type:"text", nullable:false, default:""})
     name: string;
 
+    @Column({type:"int", nullable:true, default:null})
+    score: number;
+    
     @OneToMany(() => BorrowedBookEntity, borrowedBook => borrowedBook.book)
     borrowedBooks: BorrowedBookEntity[];
 }

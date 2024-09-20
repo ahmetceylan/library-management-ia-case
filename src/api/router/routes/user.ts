@@ -16,12 +16,12 @@ import { UserValidation } from '../../helpers/validations/userValidation';
  */
 // router.get('/', [validate], UserController.getAllUsers);
 router
-  .get('/', UserController.getAllUsers)
-  .post('/', UserValidation.validateUser, UserController.insertUser)
-  .get('/:userId', UserController.getUserById)
-  .put('/:userId', UserController.updateUser)
-  .delete('/:userId', UserController.deleteUser)
-  .post('/:userId/borrow/:bookId', UserBorrowedBookController.borrowBook)
-  .post('/:userId/return/:bookId', UserBookValidation.validateReturn, UserBorrowedBookController.returnBook);
+  .get('/users', UserController.getAllUsers)
+  .post('/users', UserValidation.validateUser, UserController.insertUser)
+  .get('/users/:userId', UserController.getUserById)
+  .put('/users/:userId', UserController.updateUser)
+  .delete('/users/:userId', UserController.deleteUser)
+  .post('/users/:userId/borrow/:bookId', UserBorrowedBookController.borrowBook)
+  .post('/users/:userId/return/:bookId', UserBookValidation.validateReturn, UserBorrowedBookController.returnBook);
 
 export default router;

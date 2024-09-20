@@ -4,9 +4,11 @@ import { BookEntity } from "../../entities";
 
 export default class BookDtoMapper {
   public static toBookDto(book: BookEntity): BookDataDto {
+    console.log("AHMET toBookDto: ", book)
     const bookResponse: BookDataDto = {
       id: book.id,
       name: book.name,
+      score: book?.score
     };
     return bookResponse;
   }
@@ -15,6 +17,7 @@ export default class BookDtoMapper {
     return books.map((book) => ({
       id: book.id,
       name: book.name,
+      score: book?.score
     }));
   }
 }

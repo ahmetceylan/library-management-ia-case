@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class BookDataDto {
     @IsNumber()
@@ -6,4 +6,8 @@ export class BookDataDto {
 
     @IsString()
     name!:string
+
+    @IsNumber()
+    @IsOptional()
+    score?:number
 }

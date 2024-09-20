@@ -9,9 +9,10 @@ class BookController {
   };
 
   getBookById = async (req: Request, res: Response) => {
-    const { bookId } = req.params;
-  
-    const book = await BookService.getBookById(parseInt(bookId));
+    const { id } = req.params;
+    console.log("AHMET ", id)
+    const book = await BookService.getBookById(parseInt(id));
+    console.log("AHMET return", id)
     res.status(200).json(book);
   };
 

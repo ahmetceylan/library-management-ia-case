@@ -5,10 +5,10 @@ const router = express.Router();
 
 
 router
-  .get('/', BookController.getAllBooks)
-  .post('/', BookValidation.validateBook, BookController.insertBook)
-  .get('/:id', BookController.getBookById)
-  .put('/:id', BookController.updateBook)
-  .delete('/:bookId', BookController.deleteBook);
+  .get('/books', BookController.getAllBooks)
+  .post('/books', BookValidation.validateBook, BookController.insertBook)
+  .get('/books/:id', BookController.getBookById)
+  .put('/books/:id', BookController.updateBook)
+  .delete('/books/:bookId', BookController.deleteBook);
 
 export default router;

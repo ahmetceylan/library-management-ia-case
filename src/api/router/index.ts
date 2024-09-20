@@ -40,7 +40,7 @@ initMiddlewares = () => {
  * Adds application routes
  */
 initApplicationRoutes = () => {
-  this.expressApp.use('/api', appRoutes);
+  this.expressApp.use('/', appRoutes);
 }
 
 /**

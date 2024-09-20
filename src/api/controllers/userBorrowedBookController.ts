@@ -22,11 +22,13 @@ class UserBorrowedBookController {
 
   returnBook = async (req: Request, res: Response) => {
     const { userId, bookId } = req.params;
-    const returnRequest = req.body as ReturnBookRequestDto;
-    returnRequest.bookId = parseInt(bookId);
-    returnRequest.userId = parseInt(userId);
-  
-  
+    const { score } = req.body;
+    let returnRequest: ReturnBookRequestDto = {
+      bookId: parseInt(bookId),
+      userId: parseInt(userId),
+      score
+    }
+
     await UserBorrowedBookService.updateUserBook(returnRequest);
   
     res.status(204).send('');

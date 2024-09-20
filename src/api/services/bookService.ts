@@ -14,9 +14,14 @@ export default class BookService {
     const allBooks = await this.getRepository().find();
     return BookDtoMapper.toList(allBooks);;
   }
+  
   public static async getBookById(id: number) {
-    const book: BookEntity = await this.checkAndGetIfBookExist(id);
-    return  BookDtoMapper.toBookDto(book);
+    try {
+      const book: BookEntity = await this.checkAndGetIfBookExist(id);
+      return BookDtoMapper.toBookDto(book);
+    } catch (error) {
+      throw error
+    }
   }
 
   public static async addBook(createBookRequest: CreateBookDto) {
@@ -27,8 +32,13 @@ export default class BookService {
 
   public static async checkAndGetIfBookExist(bookId: number): Promise<BookEntity> {
     const book = await this.getRepository().findOne({ where: { id: bookId } } as FindOneOptions<BookEntity>);
-    if (!book) throw new NotFoundError('Book not found!');
+    console.log("AHMET book: ", book)
+    if (!book) {
+      console.log("AHMET book is undefined: ", book)
+      throw new NotFoundError('Book not found!');
+    }
 
+    console.log("AHMET return book ", book)
     return book;
   }
 }
