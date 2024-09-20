@@ -8,30 +8,38 @@ class UserBorrowedBookController {
   constructor() {}
 
   borrowBook = async (req: Request, res: Response) => {
-    const { userId, bookId } = req.params;
-    const userBorrowBookRequest = {
-      userId: parseInt(userId),
-      bookId: parseInt(bookId),
-      isReturned: false,
-      score: -1,
-    } as BorrowBookRequestDto;
-  
-    await UserBorrowedBookService.addUserBook(userBorrowBookRequest);
-    res.status(201).send('');
+    try {
+      const { userId, bookId } = req.params;
+      const userBorrowBookRequest = {
+        userId: parseInt(userId),
+        bookId: parseInt(bookId),
+        isReturned: false,
+        score: -1,
+      } as BorrowBookRequestDto;
+    
+      await UserBorrowedBookService.addUserBook(userBorrowBookRequest);
+      res.status(201).send('');
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   }
 
   returnBook = async (req: Request, res: Response) => {
-    const { userId, bookId } = req.params;
-    const { score } = req.body;
-    let returnRequest: ReturnBookRequestDto = {
-      bookId: parseInt(bookId),
-      userId: parseInt(userId),
-      score
-    }
-
-    await UserBorrowedBookService.updateUserBook(returnRequest);
+    try {
+      const { userId, bookId } = req.params;
+      const { score } = req.body;
+      let returnRequest: ReturnBookRequestDto = {
+        bookId: parseInt(bookId),
+        userId: parseInt(userId),
+        score
+      }
   
-    res.status(204).send('');
+      await UserBorrowedBookService.updateUserBook(returnRequest);
+    
+      res.status(204).send('');
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   }
 }
 

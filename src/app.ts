@@ -15,12 +15,9 @@ Logger.init();
 const app = express();
 const router = new Router(app);
 // initialize database connection
-
-
-console.log("AHMET db initialized")
 // init router configs
 router.initRouter();
-console.log("AHMET router initialized")
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
 

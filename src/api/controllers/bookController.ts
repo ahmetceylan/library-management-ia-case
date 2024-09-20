@@ -4,22 +4,32 @@ import { CreateBookDto } from '../dtos';
 
 class BookController {
   getAllBooks = async (req: Request, res: Response) => {
-    const books = await BookService.getAllBooks();
-    res.status(200).json(books);
+    try {
+      const books = await BookService.getAllBooks();
+      res.status(200).json(books);
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   };
 
   getBookById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    console.log("AHMET ", id)
-    const book = await BookService.getBookById(parseInt(id));
-    console.log("AHMET return", id)
-    res.status(200).json(book);
+    try {
+      const book = await BookService.getBookById(parseInt(id));
+      res.status(200).json(book);
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   };
 
   insertBook = async (req: Request, res: Response) => {
-    const createBokRequest = req.body as CreateBookDto;
-    await BookService.addBook(createBokRequest);
-    res.status(201).send('');
+    try {
+      const createBokRequest = req.body as CreateBookDto;
+      await BookService.addBook(createBokRequest);
+      res.status(201).send('');
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   };
 
   updateBook = async (req: Request, res: Response) => {

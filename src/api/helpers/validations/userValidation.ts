@@ -1,5 +1,6 @@
 import * as Joi from 'joi';
 import { NextFunction, Request as Req, Response as Res } from 'express';
+import { ValidationError } from '../errors/validationError';
 
 export class UserValidation {
   private static userSchema = Joi.object({
@@ -9,7 +10,7 @@ export class UserValidation {
   public static validateUser = (req: Req, res: Res, next: NextFunction) => {
     const { body: user } = req;
 
-    if (!user) throw new Error('No user specified.');
+    if (!user) throw new ValidationError('No user specified.');
 
     const { error, value } = this.userSchema.validate(user);
 

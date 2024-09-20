@@ -11,7 +11,6 @@ class DatabaseConnection {
     };
 
     private create() {
-        console.log("AHMET ", process.env.DB_DATABASE)
         return new DataSource({
             type: "postgres",
             host: process.env.DB_HOST,

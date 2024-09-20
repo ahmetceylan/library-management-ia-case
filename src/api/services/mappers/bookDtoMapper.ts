@@ -4,7 +4,6 @@ import { BookEntity } from "../../entities";
 
 export default class BookDtoMapper {
   public static toBookDto(book: BookEntity): BookDataDto {
-    console.log("AHMET toBookDto: ", book)
     const bookResponse: BookDataDto = {
       id: book.id,
       name: book.name,

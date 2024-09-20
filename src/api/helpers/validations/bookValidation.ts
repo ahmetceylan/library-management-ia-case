@@ -1,5 +1,6 @@
 import * as Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
+import { ValidationError } from '../errors/validationError';
 
 export class BookValidation {
   private static bookSchema = Joi.object({
@@ -9,7 +10,7 @@ export class BookValidation {
   public static validateBook = (req: Request, res: Response, next: NextFunction) => {
     const { body: book } = req;
 
-    if (!book) throw new Error('No book specified.');
+    if (!book) throw new ValidationError('No book specified.');
 
     const { error, value } = this.bookSchema.validate(book);
 

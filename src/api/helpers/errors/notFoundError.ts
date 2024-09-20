@@ -7,7 +7,7 @@ export class NotFoundError extends BaseError {
     super({
       status: 404,
       message,
-      type: 'NotFoundError.name',
+      type: NotFoundError.name,
     });
     this.message = message;
   }

@@ -32,13 +32,10 @@ class BookService {
 
   public async checkAndGetIfBookExist(bookId: number): Promise<BookEntity> {
     const book = await this.getRepository().findOne({ where: { id: bookId } } as FindOneOptions<BookEntity>);
-    console.log("AHMET book: ", book)
+  
     if (!book) {
-      console.log("AHMET book is undefined: ", book)
       throw new NotFoundError('Book not found!');
     }
-
-    console.log("AHMET return book ", book)
     return book;
   }
 }

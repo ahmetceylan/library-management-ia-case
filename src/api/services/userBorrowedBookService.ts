@@ -8,6 +8,7 @@ import BookService from './bookService';
 import { BorrowBookRequestDto } from '../dtos/BorrowBookRequestDto';
 import { NotFoundError } from '../helpers/errors/notFoundError';
 import { ReturnBookRequestDto } from '../dtos/returnBookRequestDto';
+import { BadRequestError } from '../helpers/errors/badRequestError';
 
 class UserBorrowedBookService {
   public getRepository(): Repository<BorrowedBookEntity> {
@@ -36,10 +37,9 @@ class UserBorrowedBookService {
     // checks
     await UserService.checkAndGetIfUserExist(userBorrowBookRequest.userId);
     await BookService.checkAndGetIfBookExist(userBorrowBookRequest.bookId);
-    await this.isAnyUserUsingThisBook(userBorrowBookRequest.bookId);
-
-  
-    await this.getRepository().insert(userBorrowBookRequest);
+    if (await this.isBookAvailableForBorrowing(userBorrowBookRequest.bookId)) {
+      await this.getRepository().insert(userBorrowBookRequest);
+    }
   }
 
   public async updateUserBook(
@@ -51,7 +51,6 @@ class UserBorrowedBookService {
       where: { bookId, userId, isReturned: false },
     } as FindOneOptions<BorrowedBookEntity>);
 
-    console.log("AHMET userBorrowedBook: ", userBorrowedBook)
     if (!userBorrowedBook) throw new NotFoundError(`This book has not been borrowed from this user yet! userId: ${userId} bookId:${bookId} `);
 
     const userBorrowedBookEntity: BorrowedBookEntity =  new BorrowedBookEntity()
@@ -66,13 +65,15 @@ class UserBorrowedBookService {
     await this.updateBooksScore(userBorrowedBookEntity.bookId);
   }
 
-  private async isAnyUserUsingThisBook(bookId: number) {
+  private async isBookAvailableForBorrowing(bookId: number): Promise<boolean> {
     const notReturnedBookCountWithThisId = await this.getRepository().count({
       where: { bookId, isReturned: false },
     } as FindManyOptions<BorrowedBookEntity>);
 
-    if (notReturnedBookCountWithThisId > 0) throw new Error(`This book is used in now! bookId: bookId: ${bookId}`);
-    
+    if (notReturnedBookCountWithThisId > 0) {
+      throw new BadRequestError(`This book is already borrowed! bookId: ${bookId}`);
+    }
+    return true;
   }
 
   private async updateBooksScore(bookId: number) {

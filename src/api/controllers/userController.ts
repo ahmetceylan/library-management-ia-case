@@ -7,20 +7,32 @@ class UserController {
   constructor() {}
 
   getAllUsers = async (req: Request, res: Response) => {
-    const users: UserDataDto[] = await UserService.getAllUsers();
-    res.status(200).json(users);
+    try {
+      const users: UserDataDto[] = await UserService.getAllUsers();
+      res.status(200).json(users);
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   }
 
   getUserById = async (req: Request, res: Response) => {
-    const { userId } = req.params;
-    const user = await UserService.getUserById(parseInt(userId));
-    res.status(200).json(user);
+    try {
+      const { userId } = req.params;
+      const user = await UserService.getUserById(parseInt(userId));
+      res.status(200).json(user);
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   }
 
   insertUser = async (req: Request, res: Response) => {
-    const userRequest = req.body as CreateUserDto;
-    await UserService.addUser(userRequest);
-    res.status(201).send('');
+    try {
+      const userRequest = req.body as CreateUserDto;
+      await UserService.addUser(userRequest);
+      res.status(201).send('');
+    } catch (err: any) {
+      res.status(err.status).send({msg: err.message, type: err.type})
+    }
   }
 
   updateUser = async (req: Request, res: Response) => {
