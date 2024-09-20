@@ -1,9 +1,7 @@
-import request from "supertest";
-import application from "../app";
-
+import request from 'supertest';
+import application from '../app';
 
 describe('middlewares/notFound', () => {
-
   afterEach(async () => {
     await application.close();
   });
@@ -12,10 +10,10 @@ describe('middlewares/notFound', () => {
     jest.useFakeTimers();
   });
 
-  
-  const getRequests = () => request(application).post('/api/invalid').send({
-    name: "sample"
-  });
+  const getRequests = () =>
+    request(application).post('/api/invalid').send({
+      name: 'sample'
+    });
 
   it('url not found test', async () => {
     const res = await getRequests();
