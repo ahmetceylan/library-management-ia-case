@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import UserBorrowedBookService from '../services/userBorrowedBookService';
-import { BorrowedBookEntity } from '../entities';
-import { BorrowBookRequestDto } from '../dtos/BorrowBookRequestDto';
+import { BorrowBookRequestDto } from '../dtos/borrowBookRequestDto';
 import { ReturnBookRequestDto } from '../dtos/returnBookRequestDto';
 
 class UserBorrowedBookController {

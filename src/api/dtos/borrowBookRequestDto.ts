@@ -1,6 +1,5 @@
 import { Transform } from "class-transformer";
 import { IsBoolean, IsDefined, IsNumber, IsString } from "class-validator";
-// import { IsNumberOrString } from "../utils/isNumberOrStringDecorator";
 
 export class BorrowBookRequestDto {
 
