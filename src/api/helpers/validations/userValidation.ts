@@ -5,6 +5,7 @@ export class UserValidation {
   private static userSchema = Joi.object({
     name: Joi.string().required(),
   });
+  
   public static validateUser = (req: Req, res: Res, next: NextFunction) => {
     const { body: user } = req;
 

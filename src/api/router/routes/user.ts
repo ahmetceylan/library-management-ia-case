@@ -6,7 +6,7 @@ var router = express.Router();
  * CONTROLLER
  */
 import UserController from '../../controllers/userController';
-import UserBookController from '../../controllers/userBookController';
+import UserBorrowedBookController from '../../controllers/userBorrowedBookController';
 
 import { UserBookValidation } from '../../helpers/validations/userBookValidation';
 import { UserValidation } from '../../helpers/validations/userValidation';
@@ -21,7 +21,7 @@ router
   .get('/:userId', UserController.getUserById)
   .put('/:userId', UserController.updateUser)
   .delete('/:userId', UserController.deleteUser)
-  .post('/:userId/borrow/:bookId', UserBookController.borrowBook)
-  .post('/:userId/return/:bookId', UserBookValidation.validateReturn, UserBookController.returnBook);
+  .post('/:userId/borrow/:bookId', UserBorrowedBookController.borrowBook)
+  .post('/:userId/return/:bookId', UserBookValidation.validateReturn, UserBorrowedBookController.returnBook);
 
 export default router;
