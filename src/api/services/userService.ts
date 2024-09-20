@@ -7,17 +7,17 @@ import UserMapper from './mappers/userDtoMapper';
 import { CreateUserDto } from '../dtos';
 import { NotFoundError } from '../helpers/errors/notFoundError';
 
-export default class UserService {
-  public static getRepository(): Repository<UserEntity> {
+class UserService {
+  public getRepository(): Repository<UserEntity> {
     return AppDataSource.getInstance().getRepository(UserEntity)
   }
 
-  public static async getAllUsers(): Promise<UserDataDto[]> {
+  public async getAllUsers(): Promise<UserDataDto[]> {
     const data: UserEntity[] = await this.getRepository().find();
     return UserMapper.toList(data);
   }
 
-  public static async getUserById(id: number) {
+  public async getUserById(id: number) {
     const user: UserEntity | null = await this.checkAndGetIfUserExist(id);
 
     const usersBooksWithNames = await userBorrowedBookService.getRepository().find({
@@ -30,23 +30,23 @@ export default class UserService {
     return userResponse;
   }
 
-  public static async addUser(userRequest: CreateUserDto) {
+  public async addUser(userRequest: CreateUserDto) {
     const userEntity: UserEntity = new UserEntity();
     userEntity.name = userRequest.name;
     await this.getRepository().insert(userEntity); 
   }
 
-  public static async updateUser(id: number, partialUser: Partial<UserEntity>) {
+  public async updateUser(id: number, partialUser: Partial<UserEntity>) {
     await this.checkAndGetIfUserExist(id);
     await this.getRepository().update(id, partialUser);
 
   }
-  public static async deleteUser(id: number) {
+  public async deleteUser(id: number) {
     await this.getRepository().delete(id);
     
   }
 
-  public static async checkAndGetIfUserExist(userId: number): Promise<UserEntity> {
+  public async checkAndGetIfUserExist(userId: number): Promise<UserEntity> {
     const book = await this.getRepository().findOne({
       where: { id: userId },
       relations: [],
@@ -56,3 +56,5 @@ export default class UserService {
     return book;
   }
 }
+
+export default new UserService()
